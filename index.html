@@ -1,140 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VisualHand — Offline Demo</title>
-  <link rel="stylesheet" href="styles.css"/>
+  <meta charset="UTF-8">
+  <title>VisualHand - SOS Demo</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="firebase-config.js"></script>
+  <script type="module" src="app.js"></script>
 </head>
 <body>
-  <header class="vh-header">
-    <div class="brand">
-      <img src="assets/logo.svg" alt="VisualHand Logo" class="logo"/>
-      <div class="brand-text">
-        <h1>VisualHand</h1>
-        <p class="tagline">Prevent • Protect • Respond</p>
-      </div>
-    </div>
-    <div class="mode-switch">
-      <label class="switch">
-        <input id="modeToggle" type="checkbox"/>
-        <span class="slider"></span>
-      </label>
-      <span id="modeLabel">User Mode</span>
-    </div>
-  </header>
+  <div class="container">
+    <h1>VisualHand Demo</h1>
+    <button id="sosBtn" class="sos-btn">⚠️ SOS</button>
+    <p id="status"></p>
+  </div>
 
-  <main class="container">
-    <section class="left-col">
-      <div class="card sos-card">
-        <h2>Emergency</h2>
-        <div class="sos-grid">
-          <button id="sosBtn" class="sos-btn" aria-label="Send SOS">
-            <span class="sos-text">🆘</span>
-          </button>
-          <div class="sos-options">
-            <div class="option">
-              <label>Voice Code (Stealth)</label>
-              <div class="field">
-                <input id="voiceCode" type="text" placeholder="e.g. 'Where are my keys'"/>
-                <button id="simulateVoice" class="btn small">Simulate</button>
-              </div>
-              <small>Trigger SOS with a natural phrase — no visible panic.</small>
-            </div>
-            <div class="option inline">
-              <label class="checkbox">
-                <input id="duressToggle" type="checkbox"/> Duress Code
-              </label>
-              <small>If forced to press, mark as under duress.</small>
-            </div>
-          </div>
-        </div>
-        <div class="chips">
-          <span class="chip">Live GPS (simulated)</span>
-          <span class="chip">Stealth Activation</span>
-          <span class="chip">Tamper Resistant</span>
-        </div>
-      </div>
-
-      <div class="card settings-card">
-        <h2>Preferences</h2>
-        <div class="settings">
-          <label class="checkbox">
-            <input id="optInNearby" type="checkbox" checked/> Opt-in as Nearby Responder
-          </label>
-          <label class="checkbox">
-            <input id="listenMode" type="checkbox" checked/> Listen Mode (anonymized alerts)
-          </label>
-          <label class="checkbox">
-            <input id="alertSounds" type="checkbox" checked/> Alert Sound
-          </label>
-        </div>
-        <p class="hint">Prevention focus: nearby responders &amp; listen mode help stop incidents <b>before</b> they escalate.</p>
-      </div>
-
-      <div class="card caregivers-card">
-        <h2>Caregiver Check-ins</h2>
-        <div class="checkins">
-          <div class="row">
-            <span>Next check-in</span>
-            <time id="nextCheckin">—</time>
-          </div>
-          <div class="row">
-            <button id="safeBtn" class="btn">I'm Safe</button>
-            <button id="skipBtn" class="btn ghost">Skip</button>
-          </div>
-          <small>Automatic reminders for elderly/disabled users and vulnerable youth.</small>
-        </div>
-      </div>
-    </section>
-
-    <section class="right-col">
-      <div class="card map-card">
-        <h2>Area View (Simulated)</h2>
-        <canvas id="map" width="520" height="300" aria-label="Simulated map area"></canvas>
-        <div class="legend">
-          <span class="legend-item"><span class="dot user"></span>User</span>
-          <span class="legend-item"><span class="dot responder"></span>Nearby Responder</span>
-          <span class="legend-item"><span class="dot alert"></span>Active Alert</span>
-        </div>
-      </div>
-
-      <div class="card feed-card">
-        <h2 id="feedTitle">My Alerts</h2>
-        <div id="feed" class="feed"></div>
-      </div>
-
-      <div class="card monitor-card hidden" id="monitorCard">
-        <h2>Authorized Monitor Dashboard</h2>
-        <p class="muted">Restricted access — for vetted YCPD/SAPS-linked desks or community monitors only.</p>
-        <div id="monitorFeed" class="feed"></div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="vh-footer">
-    <div class="left">
-      <span class="muted">Offline demo • No network calls • For presentation only</span>
-    </div>
-    <div class="right">
-      <span class="muted">Brand: Black + Neon Blue</span>
-    </div>
-  </footer>
-
-  <audio id="beep">
-    <source src="assets/beep.wav" type="audio/wav"/>
-  </audio>
-
-  <!-- Your existing app logic -->
-  <script src="app.js"></script>
-
-  <!-- Intercom Messenger Snippet -->
-  <script type="module">
-    import Intercom from '@intercom/messenger-js-sdk';
-
-    Intercom({
-      app_id: 'cfrqglq5'
-    });
+  <!-- Intercom Messenger -->
+  <script>
+    window.intercomSettings = { app_id: "cfrqglq5" };
+  </script>
+  <script>
+    (function() {
+      var w = window;
+      var ic = w.Intercom;
+      if (typeof ic === "function") {
+        ic("reattach_activator");
+        ic("update", intercomSettings);
+      } else {
+        var d = document;
+        var i = function() { i.c(arguments); };
+        i.q = [];
+        i.c = function(args) { i.q.push(args); };
+        w.Intercom = i;
+        function l() {
+          var s = d.createElement("script");
+          s.type = "text/javascript";
+          s.async = true;
+          s.src = "https://widget.intercom.io/widget/cfrqglq5";
+          var x = d.getElementsByTagName("script")[0];
+          x.parentNode.insertBefore(s, x);
+        }
+        if (w.attachEvent) {
+          w.attachEvent("onload", l);
+        } else {
+          w.addEventListener("load", l, false);
+        }
+      }
+    })();
   </script>
 </body>
 </html>
