@@ -125,6 +125,16 @@
     <source src="assets/beep.wav" type="audio/wav"/>
   </audio>
 
+  <!-- Your existing app logic -->
   <script src="app.js"></script>
+
+  <!-- Intercom Messenger Snippet -->
+  <script type="module">
+    import Intercom from '@intercom/messenger-js-sdk';
+
+    Intercom({
+      app_id: 'cfrqglq5'
+    });
+  </script>
 </body>
 </html>
